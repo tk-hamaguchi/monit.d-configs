@@ -1,0 +1,3 @@
+#check process mmonit with pidfile /usr/local/mmonit/logs/mmonit.pid
+#  start program = "/usr/local/mmonit/bin/mmonit" as uid mmonit and gid mmonit
+#  stop program = "/usr/local/mmonit/bin/mmonit stop" as uid mmonit and gid mmonit

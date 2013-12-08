@@ -1,0 +1,13 @@
+check process syslog with pidfile /var/run/syslogd.pid
+  group system
+  start program = "/etc/init.d/syslog start"
+  stop program = "/etc/init.d/syslog stop"
+  if 5 restarts within 5 cycles then timeout
+  depends on syslog_rc
+
+check file syslog_rc with path /etc/init.d/syslog
+  group system
+  if failed checksum then unmonitor
+  if failed permission 755 then unmonitor
+  if failed uid root then unmonitor
+  if failed gid root then unmonitor

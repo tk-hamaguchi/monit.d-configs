@@ -1,0 +1,13 @@
+check process ntpd with pidfile /var/run/ntpd.pid
+  group system
+  start program = "/etc/init.d/ntpd start"
+  stop program = "/etc/init.d/ntpd stop"
+  if 5 restarts within 5 cycles then timeout
+  depends on ntpd_rc
+
+check file ntpd_rc with path /etc/init.d/ntpd
+  group system
+  if failed checksum then unmonitor
+  if failed permission 755 then unmonitor
+  if failed uid root then unmonitor
+  if failed gid root then unmonitor

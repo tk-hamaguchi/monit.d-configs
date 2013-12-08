@@ -1,0 +1,11 @@
+check process redmine with pidfile /home/redmine/redmine/current/tmp/pids/puma.pid
+  group railsapp
+  start program = "/usr/local/rvm/bin/rvm-shell 2.0.0@redmine -c 'cd /home/redmine/redmine/current ; RAILS_ENV=production bundle exec puma -C config/puma.rb'" as uid redmine and gid rails
+  stop program = "/bin/kill `cat /home/redmine/redmine/current/tmp/pids/puma.pid`"
+  if failed unixsocket /home/redmine/redmine/current/tmp/sockets/puma_redmine.sock then restart
+  if 5 restarts within 5 cycles then timeout
+  depends on redmine_database_yml
+
+check file redmine_database_yml path /home/redmine/redmine/current/config/database.yml
+  group railsapp
+  if failed checksum then unmonitor
